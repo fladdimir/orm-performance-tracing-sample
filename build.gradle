@@ -1,0 +1,63 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.0'
+	id 'io.spring.dependency-management' version '1.1.5'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	implementation 'com.cosium.spring.data:spring-data-jpa-entity-graph:3.2.2'
+
+    implementation 'io.opentelemetry:opentelemetry-api:1.40.0'
+
+	annotationProcessor 'org.hibernate.orm:hibernate-jpamodelgen:6.3.2.Final'
+	annotationProcessor 'com.cosium.spring.data:spring-data-jpa-entity-graph-generator:3.2.2'
+
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'org.postgresql:postgresql'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+
+task dataInsert(type: Test) {
+    useJUnitPlatform {
+        includeTags "dataInsert"
+    }
+}
+
+task performanceTest(type: Test) {
+    useJUnitPlatform {
+        includeTags "performanceTest"
+    }
+}
+
+def test = tasks.named("test") {
+    useJUnitPlatform {
+        excludeTags "manualTest", "dataInsert", "performanceTest"
+    }
+}

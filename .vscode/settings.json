@@ -1,0 +1,12 @@
+{
+  "java.compile.nullAnalysis.mode": "disabled",
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.test.config": {
+    "env": {
+      "JAVA_TOOL_OPTIONS": "-javaagent:opentelemetry-javaagent.jar",
+      "OTEL_TRACES_EXPORTER": "otlp",
+      "OTEL_METRICS_EXPORTER": "none",
+      "OTEL_LOGS_EXPORTER": "none"
+    }
+  }
+}
